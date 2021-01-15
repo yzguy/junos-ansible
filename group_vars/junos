@@ -1,0 +1,6 @@
+---
+ansible_connection: netconf
+ansible_network_os: junipernetworks.junos.junos
+ansible_user: ubnt
+ansible_password: ''
+ansible_command_timeout: 30

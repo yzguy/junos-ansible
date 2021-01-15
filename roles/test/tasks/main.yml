@@ -1,0 +1,23 @@
+---
+
+- name: Ensure ./rendered/{{ inventory_hostname }} dir exists
+  file:
+    path: ./configs/{{ inventory_hostname }}
+    state: directory
+
+- name: Render template
+  template:
+    src: 'baseconf.j2'
+    dest: ./configs/{{ inventory_hostname }}/running.conf
+
+- name: Install config and Save Diff
+  napalm_install_config:
+    hostname: '{{ inventory_hostname }}'
+    username: '{{ ansible_user }}'
+    password: '{{ ansible_password }}'
+    dev_os: junos
+    config_file: ./configs/{{ inventory_hostname }}/running.conf
+    commit_changes: True
+    replace_config: False
+    get_diffs: True
+    diff_file: ./configs/{{ inventory_hostname }}/diff

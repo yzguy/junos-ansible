@@ -1,0 +1,4 @@
+[edit vlans]
++   VLAN20 {
++       vlan-id 20;
++   }

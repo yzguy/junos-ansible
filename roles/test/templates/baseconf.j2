@@ -1,0 +1,12 @@
+vlans {                                 
+{% for vlan in vlans %}
+    {{ vlan.name }} {
+    {% if 'vlan_id' in vlan %}
+    vlan-id {{ vlan.vlan_id }};
+    {% endif -%}
+    {% if 'l3_interface' in vlan %}
+    l3-interface {{ vlan.l3_interface }};
+    {% endif -%}
+    }
+{% endfor %}
+}
