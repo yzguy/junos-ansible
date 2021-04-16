@@ -12,9 +12,9 @@ Tells us how to setup connection details for network_cli + NETCONF
 
 https://docs.ansible.com/ansible/latest/network/user_guide/platform_junos.html
 
-#### Notes
+#### junosnetworks modules
 
-Some modules only work with network_cli, eg junos_ping. If we are using NETCONF mostly, we can just override per task
+JunOS can be configured using the junipernetworks modules directly, however some modules only work with network_cli, eg junos_ping. If we are using NETCONF mostly, we can just override per task
 
 ```
 - name: Ping gateway
