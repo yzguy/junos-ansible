@@ -27,3 +27,5 @@ Some modules only work with network_cli, eg junos_ping. If we are using NETCONF 
 ### Ansible + NAPALM
 
 We can also use `ansible-napalm` to render the configuration, then push it to the device.
+
+https://github.com/napalm-automation/napalm-ansible
