@@ -192,9 +192,7 @@ The templating engine used by Ansible is called Jinja2, it is a very mature and 
 
 If you use the `ansible-inventory` command to list all your devices, you can see the variables that will be available within the templates.
 
-##### **Notes**
-
-###### replace:
+##### replace:
 
 If you look at the example templates, you will see `replace:` at points. This is a JunOS specific convention that means the configuration section below it will be replaced in it's entirety with what you defined.
 
@@ -239,7 +237,7 @@ Using this `replace:` in certain locations can allow you to incrementally start 
 
 You can read more about `replace:` [here](https://www.juniper.net/documentation/us/en/software/junos/cli/topics/topic-map/junos-config-files-loading.html)
 
-###### lstrp_blocks
+##### lstrp_blocks
 
 If you look at the top of `roles/config/templates/baseconf.j2'`, you will see `#jinja2: lstrip_blocks: True`. This is done to "strip tabs and spaces from the beginning of a line to the start of a block." This is because when doing looping/conditionals in Jinja2 the indenting/spacing gets weird.
 
