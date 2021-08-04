@@ -1,0 +1,10 @@
+vlans {
+  {% for vlan in vlans %}
+  replace:
+  {{ vlan.name }} {
+    {% if vlan.get('vlan_id') %}
+    vlan-id {{ vlan.vlan_id }};
+    {% endif %}
+  }
+  {% endfor %}
+}

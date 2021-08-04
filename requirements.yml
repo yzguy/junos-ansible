@@ -1,3 +1,4 @@
 ---
 collections:
   - name: junipernetworks.junos
+  - name: netbox.netbox

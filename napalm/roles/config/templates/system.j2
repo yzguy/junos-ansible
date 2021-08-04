@@ -1,0 +1,14 @@
+system {
+  replace:
+  host-name {{ inventory_hostname.split('.')[0] }};
+  {% if domain_name %}
+  domain-name {{ domain_name }};
+  {% endif %}
+  {% if name_servers %}
+  name-server {
+  {% for name_server in name_servers %}
+    {{ name_server }};
+  {% endfor %}
+  }
+  {% endif %}
+}

@@ -1,0 +1,27 @@
+{% if interfaces %}
+interfaces {
+{% for name, config in interfaces.items() %}
+  replace:
+  {{ name }} {
+    {% if config.get('description') %}
+    description {{ config.description }};
+    {% endif %}
+    unit 0 {
+      family ethernet-switching {
+        {% if config.mode == 'trunk' %}
+        port-mode trunk;
+        vlan {
+          members [ {{ config.vlans | join(' ') }} ];
+        }
+        native-vlan-id {{ config.native_vlan }};
+        {% else %}
+        vlan {
+          members {{ config.vlans[0] }};
+        }
+        {% endif %}
+      }
+    }
+  }
+{% endfor %}
+}
+{% endif %}

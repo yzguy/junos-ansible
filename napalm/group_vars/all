@@ -1,6 +1,9 @@
 ---
 ansible_connection: netconf
 ansible_network_os: junipernetworks.junos.junos
-ansible_user: ubnt
-ansible_password: ''
 ansible_command_timeout: 30
+
+domain_name: yzguy.io
+name_servers:
+  - 192.168.221.2
+  - 192.168.221.3

@@ -1,0 +1,13 @@
+---
+  - name: Apply VLANs to device
+    hosts: all
+
+    tasks:
+      - name: Create VLAN(s)
+        junipernetworks.junos.junos_vlans:
+          config:
+            - name: VLAN1000
+              vlan_id: 1000
+            - name: VLAN1001
+              vlan_id: 1001
+          state: merged

@@ -1,0 +1,6 @@
+---
+- name: Configure Hostname and DNS
+  junipernetworks.junos.junos_system:
+    hostname: "{{ inventory_hostname.split('.')[0] }}"
+    domain_name: "{{ domain_name }}"
+    name_servers: "{{ name_servers }}"

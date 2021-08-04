@@ -1,7 +1,7 @@
 ---
 
 - name: Configure
-  hosts: junos
+  hosts: all
   gather_facts: no
   roles:
-    - test
+    - config

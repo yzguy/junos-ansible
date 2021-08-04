@@ -1,0 +1,9 @@
+---
+ansible_connection: netconf
+ansible_network_os: junipernetworks.junos.junos
+ansible_command_timeout: 60
+
+domain_name: yzguy.io
+name_servers:
+  - 192.168.221.2
+  - 192.168.221.3

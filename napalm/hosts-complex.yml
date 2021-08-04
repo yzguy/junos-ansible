@@ -1,0 +1,70 @@
+---
+all:
+  hosts:
+    edge1.iad1.us.yzguy.io:
+    edge2.sea1.us.yzguy.io:
+    edge1.dub1.eu.yzguy.io:
+    spine01.iad1.us.yzguy.io:
+    spine02.iad1.us.yzguy.io:
+    spine01.sea1.us.yzguy.io:
+    spine02.sea1.us.yzguy.io:
+    spine01.dub1.eu.yzguy.io:
+    spine02.dub1.eu.yzguy.io:
+    leaf01.iad1.us.yzguy.io:
+    leaf01.sea1.us.yzguy.io:
+    leaf01.dub1.eu.yzguy.io:
+
+  children:
+    # Regions
+    us:
+      children:
+        iad1:
+        sea1:
+
+    eu:
+      children:
+        dub1:
+
+    # Datacenters
+    iad1:
+      hosts:
+        edge1.iad1.us.yzguy.io:
+        spine01.iad1.us.yzguy.io:
+        spine02.iad1.us.yzguy.io:
+        leaf01.iad1.us.yzguy.io:
+
+    sea1:
+      hosts:
+        edge2.sea1.us.yzguy.io:
+        spine01.sea1.us.yzguy.io:
+        spine02.sea1.us.yzguy.io:
+        leaf01.sea1.us.yzguy.io:
+
+    dub1:
+      hosts:
+        edge1.dub1.eu.yzguy.io:
+        spine01.dub1.eu.yzguy.io:
+        spine02.dub1.eu.yzguy.io:
+        leaf01.dub1.eu.yzguy.io:
+
+    # Roles
+    edge:
+      hosts:
+        edge1.iad1.us.yzguy.io:
+        edge2.sea1.us.yzguy.io:
+        edge1.dub1.eu.yzguy.io:
+
+    spines:
+      hosts:
+        spine01.iad1.us.yzguy.io:
+        spine02.iad1.us.yzguy.io:
+        spine01.sea1.us.yzguy.io:
+        spine02.sea1.us.yzguy.io:
+        spine01.dub1.eu.yzguy.io:
+        spine02.dub1.eu.yzguy.io:
+
+    leaf:
+      hosts:
+        leaf01.iad1.us.yzguy.io:
+        leaf01.sea1.us.yzguy.io:
+        leaf01.dub1.eu.yzguy.io:
