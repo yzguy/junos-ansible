@@ -52,7 +52,7 @@ When using Ansible installed into virtualenv, need to set python path in ansible
 ```
 virtualenv venv
 source venv/bin/activate
-pip install -y requirements.txt
+pip install -r requirements.txt
 ```
 
 * Install Ansible collections from Galaxy
@@ -65,9 +65,9 @@ ansible-galaxy collection install -r requirements.yml
 
 Examples have been broken down to show using modules and using NAPALM.
 
-[Modules](./modules/README.md) focuses on using modules in a playbook, then moves on using modules within roles. The latter demonstrates how variables can be used within groups/hosts to dynamically configure devices.
+[Modules](./modules) focuses on using modules in a playbook, then moves on using modules within roles. The latter demonstrates how variables can be used within groups/hosts to dynamically configure devices.
 
-[NAPALM](./napalm/README.md) will focus on using the roles pattern to dynamically generate configuration from templates, then pass the rendered template to NAPALM, and finally NAPALM will work to apply the configuration to the device(s).
+[NAPALM](./napalm) will focus on using the roles pattern to dynamically generate configuration from templates, then pass the rendered template to NAPALM, and finally NAPALM will work to apply the configuration to the device(s).
 
 ### Questions/Suggestions
 

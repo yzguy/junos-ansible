@@ -29,6 +29,8 @@ roles if you were using just JunOS modules in your playbooks.
 
 A basic inventory in Ansible is just a INI file or YAML file. I prefer to use a YAML file over INI as I find it cleaner and easier to work with. It's also possible you could write code to generate this YAML inventory file, or you could use a [inventory plugin](https://docs.ansible.com/ansible/latest/plugins/inventory.html#inventory-plugins) or create a [dynamic inventory](https://docs.ansible.com/ansible/latest/user_guide/intro_dynamic_inventory.html#intro-dynamic-inventory).
 
+Our inventory for this example will be `hosts.yml`, it's very basic, nothing special. If you want to see a complex inventory, you can look at [hosts-complex.yml](hosts-complex.yml). This "complex" inventory has groupings for region, datacenter, role, etc., which would be very common in a real life network.
+
 One popular dynamic inventory would be the [Netbox Inventory](https://netbox-ansible-collection.readthedocs.io/en/latest/). An example of how to set up this dynamic inventory can be seen in [netbox_inventory.yml](netbox_inventory.yml)
 
 ```
