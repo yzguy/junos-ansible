@@ -192,7 +192,9 @@ The templating engine used by Ansible is called Jinja2, it is a very mature and 
 
 If you use the `ansible-inventory` command to list all your devices, you can see the variables that will be available within the templates.
 
-##### **Note**
+##### **Notes**
+
+###### replace:
 
 If you look at the example templates, you will see `replace:` at points. This is a JunOS specific convention that means the configuration section below it will be replaced in it's entirety with what you defined.
 
@@ -236,6 +238,14 @@ interfaces {
 Using this `replace:` in certain locations can allow you to incrementally start managing configuration sections via this process, until you get to the point where you can render and replace the entire configuration.
 
 You can read more about `replace:` [here](https://www.juniper.net/documentation/us/en/software/junos/cli/topics/topic-map/junos-config-files-loading.html)
+
+###### lstrp_blocks
+
+If you look at the top of `roles/config/templates/baseconf.j2'`, you will see `#jinja2: lstrip_blocks: True`. This is done to "strip tabs and spaces from the beginning of a line to the start of a block." This is because when doing looping/conditionals in Jinja2 the indenting/spacing gets weird.
+
+The indents are particularly important when doing network configurations, and while you can use `-` and `+` to control it, I've found it much easier to just turn `lstrip_blocks` on
+
+More information about this can be found [here](https://blog.networktocode.com/post/whitespace-control-in-jinja-templates/)
 
 ## Put It Together
 
@@ -363,6 +373,8 @@ wireless {
 
 {master:0}
 ```
+
+The other options under `napalm_install_config` can be viewed [here](https://github.com/napalm-automation/napalm-ansible/blob/develop/napalm_ansible/modules/napalm_install_config.py#L46)
 
 ## Conclusion
 
