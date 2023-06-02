@@ -2,3 +2,4 @@
 collections:
   - name: junipernetworks.junos
   - name: netbox.netbox
+  - name: napalm.napalm

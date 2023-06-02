@@ -1,21 +1,21 @@
 ---
 - name: Commit Changes
-  debug:
+  ansible.builtin.debug:
     msg: '[WARNING]: COMMIT_CHANGES is TRUE'
   when: commit_changes
 
 - name: Ensure ./configs/{{ inventory_hostname }} dir exists
-  file:
+  ansible.builtin.file:
     path: ./configs/{{ inventory_hostname }}
     state: directory
 
 - name: Render template for {{ inventory_hostname }}
-  template:
+  ansible.builtin.template:
     src: 'baseconf.j2'
     dest: ./configs/{{ inventory_hostname }}/rendered.conf
 
 - name: Load Config, Diff ({{ get_diffs }}), Commit ({{ commit_changes }})
-  napalm_install_config:
+  napalm.napalm.napalm_install_config:
     hostname: '{{ inventory_hostname }}'
     username: '{{ ansible_user }}'
     password: '{{ ansible_password }}'
