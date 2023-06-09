@@ -1,7 +1,0 @@
----
-
-- name: Configure
-  hosts: all
-  gather_facts: no
-  roles:
-    - config

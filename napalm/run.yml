@@ -1,0 +1,39 @@
+---
+- hosts: all
+  gather_facts: no
+
+  vars:
+    render_only: False
+
+  tasks:
+    - name: Commit Changes
+      ansible.builtin.debug:
+        msg: '[WARNING]: COMMIT is TRUE'
+      when: not ansible_check_mode
+
+    - name: Ensure ./configs/{{ inventory_hostname }} dir exists
+      ansible.builtin.file:
+        path: ./configs/{{ inventory_hostname }}
+        state: directory
+      connection: local
+
+    - name: Render template for {{ inventory_hostname }}
+      ansible.builtin.template:
+        src: 'baseconf.j2'
+        dest: ./configs/{{ inventory_hostname }}/rendered.conf
+      connection: local
+
+    - name: Load Config, Diff ({{ ansible_diff_mode }}), Commit ({{ ansible_check_mode }})
+      napalm.napalm.napalm_install_config:
+        dev_os: 'junos'
+        config_file: ./configs/{{ inventory_hostname }}/rendered.conf
+        commit_changes: "{{ not ansible_check_mode | bool }}"
+        replace_config: False
+        get_diffs: "{{ ansible_diff_mode | bool }}"
+        diff_file: ./configs/{{ inventory_hostname }}/diff
+      when: not render_only
+
+    - name: Show Config Diff
+      ansible.builtin.debug:
+        msg: "{{ lookup('file', './configs/{{ inventory_hostname }}/diff').split('\n') }}"
+      when: ansible_diff_mode and not render_only

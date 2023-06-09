@@ -19,12 +19,6 @@ when you ZTP them for the first time, and use Ansible to keep them up to date on
 
 Let's take a look at how to do this.
 
-## Structure
-
-We are utilizing the [roles](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html) pattern to organize our code, giving us
-automatic variable resolution, grouping, etc. Only one role will be used to build and deploy the configuration, this is in contrast to using multiple
-roles if you were using just JunOS modules in your playbooks.
-
 ### Inventory
 
 A basic inventory in Ansible is just a INI file or YAML file. I prefer to use a YAML file over INI as I find it cleaner and easier to work with. It's also possible you could write code to generate this YAML inventory file, or you could use a [inventory plugin](https://docs.ansible.com/ansible/latest/plugins/inventory.html#inventory-plugins) or create a [dynamic inventory](https://docs.ansible.com/ansible/latest/user_guide/intro_dynamic_inventory.html#intro-dynamic-inventory).
@@ -153,7 +147,7 @@ as well as what groups they are under.
 When you run the playbook, you can limit the scope of what device(s) it's run against, this is done with the `--limit` flag
 
 ```
--> ansible-playbook -i hosts-complex.yml site.yml --limit 'dub1'
+-> ansible-playbook -i hosts-complex.yml run.yml --limit 'dub1'
 
 PLAY [Configure] ******************************************************************
 
@@ -164,7 +158,7 @@ skipping: [spine02.dub1.eu.yzguy.io]
 skipping: [leaf01.dub1.eu.yzguy.io]
 ...
 
--> ansible-playbook -i hosts-complex.yml site.yml --limit 'leaf*'
+-> ansible-playbook -i hosts-complex.yml run.yml --limit 'leaf*'
 
 PLAY [Configure] ******************************************************************
 
@@ -173,7 +167,7 @@ skipping: [leaf01.iad1.us.yzguy.io]
 skipping: [leaf01.sea1.us.yzguy.io]
 skipping: [leaf01.dub1.eu.yzguy.io]
 
--> ansible-playbook -i hosts-complex.yml site.yml --limit 'edge1.iad1*'
+-> ansible-playbook -i hosts-complex.yml run.yml --limit 'edge1.iad1*'
 
 PLAY [Configure] ******************************************************************
 
@@ -186,7 +180,7 @@ skipping: [edge1.iad1.us.yzguy.io]
 The biggest part of the whole process is creating the templates that you will feed data
 into, then render them into configuration.
 
-The templates are contained in `roles/config/templates`, and can be organized anyway you want, except the `baseconf.j2` file.
+The templates are contained in `templates`, and can be organized anyway you want, except the `baseconf.j2` file.
 This file has no configuration other than including other templates, allowing you to break different configuration sections into their
 own files. This helps with organization and clarify while making the templates.
 
@@ -241,7 +235,7 @@ You can read more about `replace:` [here](https://www.juniper.net/documentation/
 
 ##### lstrp_blocks
 
-If you look at the top of `roles/config/templates/baseconf.j2'`, you will see `#jinja2: lstrip_blocks: True`. This is done to "strip tabs and spaces from the beginning of a line to the start of a block." This is because when doing looping/conditionals in Jinja2 the indenting/spacing gets weird.
+If you look at the top of `templates/baseconf.j2'`, you will see `#jinja2: lstrip_blocks: True`. This is done to "strip tabs and spaces from the beginning of a line to the start of a block." This is because when doing looping/conditionals in Jinja2 the indenting/spacing gets weird.
 
 The indents are particularly important when doing network configurations, and while you can use `-` and `+` to control it, I've found it much easier to just turn `lstrip_blocks` on
 
@@ -256,7 +250,7 @@ If we run our code we can see it creates a rendered configuration and loads it i
 This is in essence a `load`, `show | compare` on the CLI
 
 ```
--> ansible-playbook -i hosts.yml -u admin -k site.yml
+-> ansible-playbook -i hosts.yml -u admin -k run.yml --check --diff
 SSH password:
 
 PLAY [Configure] *****************************************************************
@@ -288,13 +282,12 @@ By looking at these we can see how our template is rendering, and what changes w
 
 After we review the rendered configuration and the diff, if we decide everything looks good, we can apply it.
 
-By setting the variable we pass in to `napalm_install_config` as a variable, with a default of `False`, we can
-override it to `True` using `--extra-vars` or `-e` for short with our CLI command as seen below.
+By using `ansible_check_mode` and `ansible_diff_mode` we can toggle between checking the config and actually applying it.
 
 A warning message was added to make it more apparent that changes to the live device were going to happen.
 
 ```
--> ansible-playbook -i hosts.yml -u admin -k site.yml -e commit_changes=True
+-> ansible-playbook -i hosts.yml -u admin -k run.yml
 SSH password:
 
 PLAY [Configure] *****************************************************************
@@ -317,7 +310,7 @@ PLAY RECAP *********************************************************************
 router.yzguy.io            : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-If we look at the device after setting `commit_changes=True`, we will see that the configuration we rendered
+If we look at the device leaving of `--check --diff`, we will see that the configuration we rendered
 is in fact active on the device.
 
 ```
